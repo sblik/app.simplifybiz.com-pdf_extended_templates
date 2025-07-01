@@ -12,6 +12,11 @@ var_dump($entry_ids);
 
 foreach ($entry_ids as $entry_id) {
     $entry                                                  = GFAPI::get_entry($entry_id);
+	if (is_wp_error($entry)) {
+		// Optionally log the error
+		error_log('Failed to get entry ID ' . $entry_id . ': ' . $entry->get_error_message());
+		continue; // Skip this entry
+	}
     $problems_entry_array[$problems_counter]['name']        = $entry[$problems_field_id_name];
     $problems_entry_array[$problems_counter]['description'] = $entry[$problems_field_id_description];
 
