@@ -11,6 +11,8 @@
 
     table {
         margin: 2px;
+        width: 100%;
+        border-collapse: collapse;
     }
 
     th, td {
