@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="1b02e641-ca33-4cc9-9299-12f82b57a4a5" name="pdf_extended_templates" url="http://localhost">
-        <fileTransfer mountedRoot="$PROJECT_DIR$/../../sites/asb/app/public/wp-content/uploads/PDF_EXTENDED_TEMPLATES" accessType="MOUNT" port="0" />
+        <fileTransfer mountedRoot="$USER_HOME$/Local Sites/appsimplifybiz/app/public/wp-content/uploads/PDF_EXTENDED_TEMPLATES" accessType="MOUNT" port="0" />
       </webServer>
     </option>
   </component>

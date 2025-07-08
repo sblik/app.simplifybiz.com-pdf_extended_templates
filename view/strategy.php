@@ -1,9 +1,14 @@
-<?php ?>
-<H1>STRATEGY for <?php echo $variables_strategy['organization_name'] ?> </H1>
-<div><span class="bold">Date Created: </span> <?php echo $variables_strategy['date'] ?></div>
+<?php
+global $variables_strategy, $problems_entry_array, $solutions_entry_array, $markets_entry_array, $objective_entry_array;
+?>
+
+<h1>STRATEGY for <?php echo esc_html($variables_strategy['organization_name'] ?? ''); ?></h1>
+<div><span class="bold">Date Created: </span> <?php echo esc_html($variables_strategy['date'] ?? ''); ?></div>
+
 <!-- Purpose ------------------------------------------------------------------------------------------------ -->
-<div><span class="bold">Purpose: </span> <?php echo $variables_strategy['purpose'] ?></div>
+<div><span class="bold">Purpose: </span> <?php echo esc_html($variables_strategy['purpose'] ?? ''); ?></div>
 <div class="spacer"></div>
+
 <!-- Problems ------------------------------------------------------------------------------------------------ -->
 <table class="smplfyTables" id="table_problems">
     <tr>
@@ -13,15 +18,18 @@
         <td class="bg_yellow">Problem</td>
         <td class="bg_red">Description</td>
     </tr>
-    <?php
-    foreach ($problems_entry_array as $entry) {
-        echo '<tr>';
-        echo '<td>' . $entry['name'] . '</td>';
-        echo '<td>' . $entry['description'] . '</td>';
-        echo '</tr>';
-    }
-    ?>
+	<?php if (!empty($problems_entry_array) && is_array($problems_entry_array)): ?>
+		<?php foreach ($problems_entry_array as $entry): ?>
+            <tr>
+                <td><?php echo esc_html($entry['name'] ?? ''); ?></td>
+                <td><?php echo esc_html($entry['description'] ?? ''); ?></td>
+            </tr>
+		<?php endforeach; ?>
+	<?php else: ?>
+        <tr><td colspan="2">No problems listed.</td></tr>
+	<?php endif; ?>
 </table>
+
 <!-- Solutions ------------------------------------------------------------------------------------------------ -->
 <table class="smplfyTables" id="table_solutions">
     <tr>
@@ -31,42 +39,46 @@
         <td class="bg_yellow">Solution</td>
         <td class="bg_red">Description</td>
     </tr>
-    <?php
-    foreach ($solutions_entry_array as $entry) {
-        echo '<tr>';
-        echo '<td>' . $entry['name'] . '</td>';
-        echo '<td>' . $entry['description'] . '</td>';
-        echo '</tr>';
-    }
-    ?>
+	<?php if (!empty($solutions_entry_array) && is_array($solutions_entry_array)): ?>
+		<?php foreach ($solutions_entry_array as $entry): ?>
+            <tr>
+                <td><?php echo esc_html($entry['name'] ?? ''); ?></td>
+                <td><?php echo esc_html($entry['description'] ?? ''); ?></td>
+            </tr>
+		<?php endforeach; ?>
+	<?php else: ?>
+        <tr><td colspan="2">No solutions listed.</td></tr>
+	<?php endif; ?>
 </table>
+
 <!-- Target Market ------------------------------------------------------------------------------------------------ -->
 <table class="smplfyTables" id="table_target_market">
     <tr>
         <th class="bg_black" colspan="4">Who We Solve These Problems For</th>
     </tr>
-    <?php
-    foreach ($markets_entry_array as $entry) {
-        echo '<tr>';
-        echo '<td colspan="4" class="bg_yellow">' . $entry['name'] . '</td>';
-        echo '</tr>';
-
-        echo '<tr>';
-        echo '<td class="bg_red w25">Demographics</td>';
-        echo '<td class="bg_blue w20">Behavior</td>';
-        echo '<td class="bg_green w20">Values</td>';
-        echo '<td class="bg_purple">Market Size & Scope</td>';
-        echo '</tr>';
-
-        echo '<tr>';
-        echo '<td>' . $entry['demographic'] . '</td>';
-        echo '<td>' . $entry['reach'] . '</td>';
-        echo '<td>' . $entry['values'] . '</td>';
-        echo '<td>' . $entry['research'] . '</td>';
-        echo '</tr>';
-    }
-    ?>
+	<?php if (!empty($markets_entry_array) && is_array($markets_entry_array)): ?>
+		<?php foreach ($markets_entry_array as $entry): ?>
+            <tr>
+                <td colspan="4" class="bg_yellow"><?php echo esc_html($entry['name'] ?? ''); ?></td>
+            </tr>
+            <tr>
+                <td class="bg_red w25">Demographics</td>
+                <td class="bg_blue w20">Behavior</td>
+                <td class="bg_green w20">Values</td>
+                <td class="bg_purple">Market Size & Scope</td>
+            </tr>
+            <tr>
+                <td><?php echo esc_html($entry['demographic'] ?? ''); ?></td>
+                <td><?php echo esc_html($entry['reach'] ?? ''); ?></td>
+                <td><?php echo esc_html($entry['values'] ?? ''); ?></td>
+                <td><?php echo esc_html($entry['research'] ?? ''); ?></td>
+            </tr>
+		<?php endforeach; ?>
+	<?php else: ?>
+        <tr><td colspan="4">No target markets listed.</td></tr>
+	<?php endif; ?>
 </table>
+
 <pagebreak>
 
     <!-- Accountability ------------------------------------------------------------------------------------------------ -->
@@ -82,16 +94,26 @@
             <td class="bg_purple">Systems</td>
         </tr>
         <tr>
-            <td><?php echo $variables_strategy['accountable_leadership']['first'] . ' ' . $variables_strategy['accountable_leadership']['last']; ?></td>
-            <td><?php echo $variables_strategy['accountable_marketing']['first'] . ' ' . $variables_strategy['accountable_marketing']['last']; ?></td>
-            <td><?php echo $variables_strategy['accountable_sales']['first'] . ' ' . $variables_strategy['accountable_sales']['last']; ?></td>
-            <td><?php echo $variables_strategy['accountable_operations']['first'] . ' ' . $variables_strategy['accountable_operations']['last']; ?></td>
-            <td><?php echo $variables_strategy['accountable_systens']['first'] . ' ' . $variables_strategy['accountable_systens']['last']; ?></td>
+			<?php
+			$roles = [
+				'accountable_leadership',
+				'accountable_marketing',
+				'accountable_sales',
+				'accountable_operations',
+				'accountable_systems',
+			];
+			foreach ($roles as $role) {
+				$person = $variables_strategy[$role] ?? '';
+				$name = is_array($person)
+					? trim(($person['first'] ?? '') . ' ' . ($person['last'] ?? ''))
+					: $person;
+				echo '<td>' . esc_html($name) . '</td>';
+			}
+			?>
         </tr>
     </table>
 
     <!-- Objectives ------------------------------------------------------------------------------------------------ -->
-
     <table class="smplfyTables" id="table_objectives">
         <tr>
             <th class="bg_black" colspan="3">Quarterly Objectives</th>
@@ -101,13 +123,15 @@
             <td class="bg_red">Point</td>
             <td class="bg_blue">Due</td>
         </tr>
-        <?php
-        foreach ($objective_entry_array as $objective_entry) {
-            echo '<tr>';
-            echo '<td>' . $objective_entry['objective'] . '</td>';
-            echo '<td>' . $objective_entry['point'] . '</td>';
-            echo '<td>' . $objective_entry['due_date'] . ' @ ' . $objective_entry['due_time'] . '</td>';
-            echo '</tr>';
-        }
-        ?>
+		<?php if (!empty($objective_entry_array) && is_array($objective_entry_array)): ?>
+			<?php foreach ($objective_entry_array as $objective_entry): ?>
+                <tr>
+                    <td><?php echo esc_html($objective_entry['objective'] ?? ''); ?></td>
+                    <td><?php echo esc_html($objective_entry['point'] ?? ''); ?></td>
+                    <td><?php echo esc_html(trim(($objective_entry['due_date'] ?? '') . ' @ ' . ($objective_entry['due_time'] ?? ''))); ?></td>
+                </tr>
+			<?php endforeach; ?>
+		<?php else: ?>
+            <tr><td colspan="3">No objectives listed.</td></tr>
+		<?php endif; ?>
     </table>
