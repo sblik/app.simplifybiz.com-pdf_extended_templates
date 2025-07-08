@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: SMPLFY Strategy
- * Version: 0.1
+ * Version: 0.2
  * Description: PDF version of business strategy
  * Author: Andre Nell
  * Author URI: https://simplifybiz.com
@@ -35,13 +35,19 @@ $show_meta_data = !empty($settings['world_show_meta_data']) ? $settings['world_s
 $upload_dir   = wp_upload_dir();
 $template_dir = trailingslashit($upload_dir['basedir']) . 'PDF_EXTENDED_TEMPLATES/';
 
+// Declare global variables
+global $variables_strategy, $markets_entry_array, $objective_entry_array;
+
+// Initialize globals to avoid undefined variable issues
+$variables_strategy = [];
+$markets_entry_array = [];
+$objective_entry_array = [];
+
 // File paths (models and views)
 $model_files = [
 	'Strategy Variables'      => $template_dir . 'model/strategy.php',
 	'Objectives Variables'    => $template_dir . 'model/objectives.php',
-	'Problems Variables'      => $template_dir . 'model/problems.php',
-	'Solutions Variables'     => $template_dir . 'model/solutions.php',
-	'Target Market Variables' => $template_dir . 'model/target_market.php',
+	'Target Market Variables' => $template_dir . 'model/markets.php',
 ];
 
 $view_files = [
@@ -56,7 +62,7 @@ $view_files = [
  */
 function safe_include($filepath, $label = '', $vars = []) {
 	if (file_exists($filepath)) {
-		extract($vars); // bring passed variables into local scope
+		extract($vars); // Bring passed variables into local scope
 		require_once $filepath;
 	} else {
 		$label = $label ? " ({$label})" : '';
@@ -64,18 +70,38 @@ function safe_include($filepath, $label = '', $vars = []) {
 	}
 }
 
-// ⚠️ Load model files in correct order: strategy.php MUST come first
+// Load model files in correct order: strategy.php MUST come first
 safe_include($model_files['Strategy Variables'], 'Strategy Variables', [
 	'form_data' => $form_data,
 ]);
 
-// Load remaining model files
+// Load remaining model files, passing globals
 foreach ($model_files as $label => $file) {
-	if ($label === 'Strategy Variables') continue;
-	safe_include($file, $label);
+	if ($label === 'Strategy Variables') {
+		continue;
+	}
+	safe_include($file, $label, [
+		'form_data' => $form_data,
+		'variables_strategy' => $variables_strategy,
+		'markets_entry_array' => $markets_entry_array,
+		'objective_entry_array' => $objective_entry_array,
+	]);
 }
 
-// Load views
+// Log globals for debugging
+\SmplfyCore\SMPLFY_Log::info('Global variables after models', [
+	'variables_strategy' => $variables_strategy,
+	'markets_entry_array' => $markets_entry_array,
+	'objective_entry_array' => $objective_entry_array,
+]);
+
+// Load views, passing globals
 foreach ($view_files as $label => $file) {
-	safe_include($file, $label);
+	safe_include($file, $label, [
+		'form_data' => $form_data,
+		'variables_strategy' => $variables_strategy,
+		'markets_entry_array' => $markets_entry_array,
+		'objective_entry_array' => $objective_entry_array,
+	]);
 }
+?>

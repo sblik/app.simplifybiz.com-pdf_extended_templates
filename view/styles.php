@@ -20,7 +20,7 @@
     }
 
     table, th, td {
-        border: 1px solid lightgrey; /* Light grey border */
+        border: 1px solid #efefef; /* Light grey border */
         border-collapse: collapse; /* Ensures borders don’t double up */
     }
 

@@ -1,7 +1,19 @@
 <?php
 // ## Get Variables from Objectives
 
+\SmplfyCore\SMPLFY_Log::info('/model/objectives.php');
+
 global $variables_strategy;
+
+// Fallback for testing or unexpected use
+if (empty($form_data) || !is_array($form_data) || !isset($form_data['field'])) {
+	\SmplfyCore\SMPLFY_Log::error('[PDF Template] $form_data is missing or malformed');
+	return;
+}
+
+// Declare global variable
+global $objective_entry_array;
+$objective_entry_array = [];
 
 $objectives_form_id = 82;
 
