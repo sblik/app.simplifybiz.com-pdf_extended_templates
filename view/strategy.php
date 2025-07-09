@@ -7,8 +7,6 @@ global $variables_strategy;
 global $markets_entry_array;
 global $objective_entry_array;
 
-\SmplfyCore\SMPLFY_Log::info( '$markets_entry_array' );
-\SmplfyCore\SMPLFY_Log::info( $markets_entry_array );
 ?>
 
 <h1>STRATEGY for <?php echo esc_html( $variables_strategy['organization_name'] ?? '' ); ?></h1>

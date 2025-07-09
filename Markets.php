@@ -1,8 +1,8 @@
 <?php
 /**
- * Template Name: SMPLFY Strategy
+ * Template Name: SMPLFY Markets
  * Version: 0.2
- * Description: PDF version of business strategy
+ * Description: PDF version of business target market
  * Author: Andre Nell
  * Author URI: https://simplifybiz.com
  * Group: SMPLFY
@@ -36,24 +36,22 @@ $upload_dir   = wp_upload_dir();
 $template_dir = trailingslashit($upload_dir['basedir']) . 'PDF_EXTENDED_TEMPLATES/';
 
 // Declare global variables
-global $variables_strategy, $markets_entry_array, $objective_entry_array;
+global $variables_strategy, $markets_entry_array;
 
 // Initialize globals to avoid undefined variable issues
 $variables_strategy = [];
 $markets_entry_array = [];
-$objective_entry_array = [];
 
 // File paths (models and views)
 $model_files = [
 	'Strategy Variables'      => $template_dir . 'model/strategy.php',
-	'Objectives Variables'    => $template_dir . 'model/objectives.php',
 	'Target Market Variables' => $template_dir . 'model/markets.php',
 ];
 
 $view_files = [
 	'Styles View'   => $template_dir . 'view/styles.php',
 	'Header View'   => $template_dir . 'view/header.php',
-	'Strategy View' => $template_dir . 'view/strategy.php',
+	'Markets View' => $template_dir . 'view/markets.php',
 	'Footer View'   => $template_dir . 'view/footer.php',
 ];
 
@@ -84,7 +82,6 @@ foreach ($model_files as $label => $file) {
 		'form_data' => $form_data,
 		'variables_strategy' => $variables_strategy,
 		'markets_entry_array' => $markets_entry_array,
-		'objective_entry_array' => $objective_entry_array,
 	]);
 }
 
@@ -92,7 +89,6 @@ foreach ($model_files as $label => $file) {
 \SmplfyCore\SMPLFY_Log::info('Global variables after models', [
 	'variables_strategy' => $variables_strategy,
 	'markets_entry_array' => $markets_entry_array,
-	'objective_entry_array' => $objective_entry_array,
 ]);
 
 // Load views, passing globals
@@ -101,6 +97,5 @@ foreach ($view_files as $label => $file) {
 		'form_data' => $form_data,
 		'variables_strategy' => $variables_strategy,
 		'markets_entry_array' => $markets_entry_array,
-		'objective_entry_array' => $objective_entry_array,
 	]);
 }

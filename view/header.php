@@ -6,8 +6,7 @@ global $variables_strategy;
     <table class="header">
         <tr>
             <td>
-				<?php echo esc_html($variables_strategy['organization_name'] ?? ''); ?> Business
-                Strategy <?php echo esc_html($variables_strategy['date'] ?? ''); ?>
+				<?php echo esc_html($variables_strategy['organization_name'] ?? ''); ?>
             </td>
         </tr>
     </table>
