@@ -72,6 +72,19 @@
         background-color: #DACFDF;
     }
 
+    .heading_dark_background {
+        background: #333;
+        color: #fff;
+        width: 100%;
+        padding: 3mm;
+    }
+
+    .heading_light_background{
+        background: #efefef;
+        width: 100%;
+        padding: 3mm;
+    }
+
     .rotate-text {
         transform: rotate(90deg); /* Rotate text 90 degrees clockwise */
         white-space: nowrap; /* Prevent text wrapping */

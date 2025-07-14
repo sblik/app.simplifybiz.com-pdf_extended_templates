@@ -61,7 +61,7 @@ foreach ( $entry_ids as $entry_id ) {
 		'demographics'  => $entry[ $markets_field_id_demographics ] ?? '',
 		'behaviors'     => $entry[ $markets_field_id_behaviors ] ?? '',
 		'values'        => $entry[ $markets_field_id_values ] ?? '',
-		'scope'         => wp_strip_all_tags( $entry[ $markets_field_id_scope ] ?? '' ),
+		'scope'         => $entry[ $markets_field_id_scope ] ?? '' ,
 		'opportunities' => $entry[ $markets_field_id_opportunities ] ?? '',
 	];
 }
